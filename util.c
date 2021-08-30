@@ -1340,6 +1340,13 @@ int do_authentication(const cfg_t *cfg, const device_t *devices,
         if (opts.uv == FIDO_OPT_FALSE && !fido_dev_supports_uv(authlist[j]))
           opts.uv = FIDO_OPT_OMIT;
 
+        if ((opts.pin == FIDO_OPT_TRUE && !fido_dev_has_pin(authlist[j])) ||
+            (opts.uv == FIDO_OPT_TRUE && !fido_dev_has_uv(authlist[j]))) {
+          if (cfg->debug)
+            D(cfg->debug_file, "Unsupported options, skipping authenticator");
+          continue;
+        }
+
         if (!set_opts(cfg, &opts, assert)) {
           if (cfg->debug)
             D(cfg->debug_file, "Failed to set assert options");
