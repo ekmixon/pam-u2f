@@ -20,7 +20,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup
-      if: ${{ matrix.os == 'ubuntu-18.04' }}
       run: |
         sudo add-apt-repository -y ppa:yubico/stable
     - name: Dependencies
