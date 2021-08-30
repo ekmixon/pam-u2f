@@ -1331,12 +1331,15 @@ int do_authentication(const cfg_t *cfg, const device_t *devices,
       goto out;
     }
 
-    /* options used during authentication */
-    parse_opts(cfg, devices[i].attributes, &opts);
-
     if (get_authenticators(cfg, devlist, ndevs, assert,
                            is_resident(devices[i].keyHandle), authlist)) {
       for (size_t j = 0; authlist[j] != NULL; j++) {
+        /* options used during authentication */
+        parse_opts(cfg, devices[i].attributes, &opts);
+
+        if (opts.uv == FIDO_OPT_FALSE && !fido_dev_supports_uv(authlist[j]))
+          opts.uv = FIDO_OPT_OMIT;
+
         if (!set_opts(cfg, &opts, assert)) {
           if (cfg->debug)
             D(cfg->debug_file, "Failed to set assert options");
