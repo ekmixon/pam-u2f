@@ -47,10 +47,12 @@ def print_test_case(filename, sshformat, credentials):
   memset(dev, 0, sizeof(dev));
 """
 
-    code = ""
     free_block = ""
 
-    code += start.format(authfile = filename, ssh = sshformat, devices = len(credentials))
+    code = "" + start.format(
+        authfile=filename, ssh=sshformat, devices=len(credentials)
+    )
+
     for c, v in enumerate(credentials):
         code += checks.format(i = c, kh = v.keyhandle, pk = v.pubkey, attr = v.attributes, old = v.oldformat)
         free_block += free.format(i = c)

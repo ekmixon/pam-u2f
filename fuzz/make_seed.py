@@ -18,11 +18,11 @@ with os.scandir("../tests/credentials") as entries:
         if not entry.is_file():
             continue
         print(entry.name)
-        with open("./seed/{}".format(entry.name), "wb") as w:
+        with open(f"./seed/{entry.name}", "wb") as w:
             w.write(bytes([1,1,1,1,1,1]))
-            with open("../tests/credentials/{}".format(entry.name), "rb") as r:
+            with open(f"../tests/credentials/{entry.name}", "rb") as r:
                 w.write(r.read())
-        with open("./seed/{}.ssh".format(entry.name), "wb") as w:
+        with open(f"./seed/{entry.name}.ssh", "wb") as w:
             w.write(bytes([0,1,1,1,1,1]))
-            with open("../tests/credentials/{}".format(entry.name), "rb") as r:
+            with open(f"../tests/credentials/{entry.name}", "rb") as r:
                 w.write(r.read())
